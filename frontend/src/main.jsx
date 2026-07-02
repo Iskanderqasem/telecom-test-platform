@@ -1844,6 +1844,7 @@ function AdminPage() {
         <button style={tabStyle('users')} onClick={() => setTab('users')}>👥 Users</button>
         <button style={tabStyle('projects')} onClick={() => setTab('projects')}>📁 Projects</button>
         <button style={tabStyle('management')} onClick={() => setTab('management')}>⚙️ Management</button>
+        <button style={tabStyle('system')} onClick={() => setTab('system')}>🖥️ System</button>
       </div>
 
       {/* USERS TAB */}
@@ -2027,6 +2028,10 @@ function AdminPage() {
       {/* MANAGEMENT TAB */}
       {tab === 'management' && (
         <ManagementTab />
+      )}
+
+      {tab === 'system' && (
+        <SystemMonitorTab />
       )}
 
     </div>
@@ -3152,6 +3157,147 @@ function SystemTab() {
               textDecoration:'none', fontSize:13, fontWeight:600}}>
             🚀 Live Site
           </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SYSTEM MONITOR TAB — Read-only dashboard, no buttons
+// ══════════════════════════════════════════════════════════════════════════════
+function SystemMonitorTab() {
+  const [status, setStatus] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  async function load() {
+    setLoading(true);
+    const data = await api('/system/status').catch(() => null);
+    setStatus(data);
+    setLoading(false);
+  }
+
+  useEffect(() => { load(); const t = setInterval(load, 30000); return () => clearInterval(t); }, []);
+
+  const formatUptime = s => {
+    const d = Math.floor(s/86400), h = Math.floor((s%86400)/3600), m = Math.floor((s%3600)/60);
+    return d > 0 ? `${d}d ${h}h ${m}m` : h > 0 ? `${h}h ${m}m` : `${m}m`;
+  };
+
+  return (
+    <div>
+      {/* System Status */}
+      <div className="card" style={{marginBottom:16}}>
+        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16}}>
+          <h3 style={{margin:0}}>🖥️ System Status</h3>
+          <div style={{display:'flex', alignItems:'center', gap:8}}>
+            <span style={{width:8,height:8,borderRadius:'50%',background:'#16a34a',display:'inline-block'}}/>
+            <span style={{fontSize:12,color:'#16a34a',fontWeight:600}}>Auto-refreshes every 30s</span>
+          </div>
+        </div>
+
+        {loading && !status ? (
+          <div style={{color:'#94a3b8', padding:20}}>Loading...</div>
+        ) : status ? (
+          <>
+            <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))', gap:12, marginBottom:16}}>
+              {[
+                { label:'Version', value: status.version, icon:'🏷️', color:'#2563eb' },
+                { label:'Environment', value: status.env, icon:'🌐', color: status.env==='production'?'#16a34a':'#d97706' },
+                { label:'Node.js', value: status.nodeVersion, icon:'⚙️', color:'#7c3aed' },
+                { label:'Uptime', value: formatUptime(status.uptime), icon:'⏱️', color:'#0891b2' },
+                { label:'Memory', value: status.memory, icon:'💾', color:'#059669' },
+                { label:'Platform', value: status.platform, icon:'💻', color:'#64748b' },
+              ].map(s => (
+                <div key={s.label} style={{background:'#f8fafc', borderRadius:10, padding:'14px 16px',
+                  borderLeft:`4px solid ${s.color}`}}>
+                  <div style={{fontSize:11, color:'#64748b', fontWeight:600, marginBottom:4}}>{s.icon} {s.label}</div>
+                  <div style={{fontSize:16, fontWeight:700, color:'#1a202c'}}>{s.value}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* GitHub Status */}
+            {status.git && (
+              <div style={{background: status.git.hasGit ? '#f0fdf4' : '#fff7ed',
+                border: `1px solid ${status.git.hasGit ? '#86efac' : '#fed7aa'}`,
+                borderRadius:10, padding:'14px 16px'}}>
+                <div style={{fontWeight:700, fontSize:13, marginBottom:8,
+                  color: status.git.hasGit ? '#15803d' : '#92400e'}}>
+                  📦 GitHub Connection
+                </div>
+                {status.git.hasGit ? (
+                  <>
+                    <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:12}}>
+                      <div>
+                        <div style={{fontSize:11, color:'#64748b'}}>Branch</div>
+                        <div style={{fontWeight:700, color:'#1a202c'}}>{status.git.branch}</div>
+                      </div>
+                      <div>
+                        <div style={{fontSize:11, color:'#64748b'}}>Updates available</div>
+                        <div style={{fontWeight:700, color: status.git.commitsAvailable > 0 ? '#d97706' : '#16a34a'}}>
+                          {status.git.commitsAvailable > 0 ? `⚠️ ${status.git.commitsAvailable} new` : '✅ Up to date'}
+                        </div>
+                      </div>
+                    </div>
+                    <div style={{marginTop:8, fontFamily:'monospace', fontSize:11, color:'#64748b',
+                      background:'#f1f5f9', padding:'6px 10px', borderRadius:6}}>
+                      {status.git.lastCommit}
+                    </div>
+                  </>
+                ) : (
+                  <div style={{fontSize:13, color:'#92400e'}}>Running in standalone mode — no git repo found</div>
+                )}
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="error">Could not load system status</div>
+        )}
+      </div>
+
+      {/* Platform Info */}
+      <div className="card" style={{marginBottom:16}}>
+        <h3 style={{marginBottom:16}}>🔗 Platform Links</h3>
+        <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))', gap:12}}>
+          {[
+            { label:'GitHub Repository', url:'https://github.com/Iskanderqasem/telecom-test-platform', icon:'📦', bg:'#1a1a2e', color:'#fff' },
+            { label:'Render Dashboard', url:'https://dashboard.render.com', icon:'🌐', bg:'#46e3b7', color:'#1a1a2e' },
+            { label:'Live Site (Render)', url:'https://telecom-test-platform.onrender.com', icon:'🚀', bg:'#2563eb', color:'#fff' },
+            { label:'Render Deploy Log', url:'https://dashboard.render.com/web/srv-d8ssl83eo5us73d2o0ng-a/deploys', icon:'📋', bg:'#7c3aed', color:'#fff' },
+          ].map(l => (
+            <a key={l.label} href={l.url} target="_blank"
+              style={{display:'flex', alignItems:'center', gap:10, padding:'12px 16px',
+                background:l.bg, color:l.color, borderRadius:10, textDecoration:'none',
+                fontWeight:600, fontSize:13, transition:'opacity 0.2s'}}>
+              <span style={{fontSize:18}}>{l.icon}</span>
+              {l.label}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* How updates work */}
+      <div className="card">
+        <h3 style={{marginBottom:12}}>🔄 How Updates Work</h3>
+        <div style={{display:'flex', flexDirection:'column', gap:10}}>
+          {[
+            { step:'1', text:'You report an issue or request a feature in Claude', icon:'💬' },
+            { step:'2', text:'Claude fixes it and pushes directly to GitHub', icon:'🤖' },
+            { step:'3', text:'Render detects the GitHub push and auto-deploys within 2 minutes', icon:'⚡' },
+            { step:'4', text:'Live site updates automatically — nothing needed from you', icon:'✅' },
+          ].map(s => (
+            <div key={s.step} style={{display:'flex', alignItems:'center', gap:12, padding:'10px 14px',
+              background:'#f8fafc', borderRadius:8}}>
+              <div style={{width:28, height:28, borderRadius:'50%', background:'#2563eb', color:'#fff',
+                display:'flex', alignItems:'center', justifyContent:'center', fontWeight:700, fontSize:13, flexShrink:0}}>
+                {s.step}
+              </div>
+              <span style={{fontSize:18}}>{s.icon}</span>
+              <span style={{fontSize:13, color:'#374151'}}>{s.text}</span>
+            </div>
+          ))}
         </div>
       </div>
     </div>
