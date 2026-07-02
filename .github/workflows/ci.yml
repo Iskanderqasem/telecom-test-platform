@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+      - run: npm install
+      - name: Check all modules load
+        run: |
+          node -e "
+          process.env.DATABASE_URL='postgres://x:x@localhost/x';
+          process.env.NODE_ENV='test';
+          require('./src/db/pool');
+          require('./src/middleware/errors');
+          require('./src/services/device/adb/adbClient');
+          require('./src/services/reports/exportService');
+          console.log('Backend OK');
+          "
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm install
+      - run: npm run build

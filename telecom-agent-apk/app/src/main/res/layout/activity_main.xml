@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0F1722">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Header -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Telecom Test Agent"
+            android:textColor="#3FB6C9"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="HTTP agent for automated telecom testing"
+            android:textColor="#93A4B8"
+            android:textSize="13sp"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Status card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#16212E"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="AGENT STATUS"
+                android:textColor="#2E6B7E"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.08"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Starting..."
+                android:textColor="#E7EDF3"
+                android:textSize="14sp"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/tvCallState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Call State: IDLE"
+                android:textColor="#3AA66B"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <!-- Auto-answer card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#16212E"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Auto-Answer Calls"
+                    android:textColor="#E7EDF3"
+                    android:textSize="15sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Enable on B-party phone so it auto-answers during tests"
+                    android:textColor="#93A4B8"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+            <Switch
+                android:id="@+id/switchAutoAnswer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"/>
+        </LinearLayout>
+
+        <!-- Permissions card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#16212E"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="PERMISSIONS"
+                android:textColor="#2E6B7E"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.08"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/tvPermissions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Checking permissions..."
+                android:textColor="#E7EDF3"
+                android:textSize="13sp"/>
+        </LinearLayout>
+
+        <!-- Last SMS card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#16212E"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="LAST SMS RECEIVED"
+                android:textColor="#2E6B7E"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.08"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/tvLastSms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No SMS received yet"
+                android:textColor="#93A4B8"
+                android:textSize="13sp"/>
+        </LinearLayout>
+
+        <!-- Instructions card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#16212E"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="HOW TO USE"
+                android:textColor="#2E6B7E"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.08"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1. Install this APK on BOTH phones via ADB:\n   adb install TelecomTestAgent.apk\n\n2. Open app on BOTH phones, grant all permissions\n\n3. Enable Auto-Answer on the B-party phone\n\n4. Connect phones to laptop via USB\n\n5. Run on your laptop:\n   adb -s SERIAL_A forward tcp:8765 tcp:8765\n   adb -s SERIAL_B forward tcp:8766 tcp:8765\n\n6. Start the backend and run tests from\n   http://localhost:4000"
+                android:textColor="#93A4B8"
+                android:textSize="12sp"
+                android:fontFamily="monospace"/>
+        </LinearLayout>
+
+        <!-- Start/Stop button -->
+        <Button
+            android:id="@+id/btnStartStop"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Stop Agent"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:backgroundTint="#2E6B7E"
+            android:textColor="#FFFFFF"/>
+
+    </LinearLayout>
+</ScrollView>

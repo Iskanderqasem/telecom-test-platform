@@ -1,0 +1,6 @@
+TC ID,Traceability Label,Flow,Environment,Test Case Description,A-Party MSISDN,A-Party Network,A-Party Profile,A-Party Handset,B-Party MSISDN,B-Party Network,B-Party Profile,B-Party Handset,Call MO,Call MT,SMS,SMS Notification,Delivery Report,Call Duration,Call Type,SMS Text,Assigned To
+SMSC-001,"A, B, C, AS, O, AX",P2P,Prod,"Send & Receive SMS (Mobile Originated & Mobile Terminated)",+64211000001,2D - VoLTE,Prepaid,A,+64211000002,2D - VoWiFi,Postpaid,B,Y,Y,Y,Y,N,15,VoLTE,Test 123,Eskandar
+Call-001,"A, B, C, O, AX",On-net > On-net,Prod,VoLTE to VoLTE Call Mobile Originated and Mobile Terminated,+64211000001,2D - VoLTE,Prepaid,A,+64211000002,2D - VoLTE,Postpaid,B,Y,Y,N,N,N,15,VoLTE,,Eskandar
+Call-002,"A, B, C, O, AX",On-net > Off-net,Prod,Call on-net Mobile Originated Receive Call Off-net Mobile Terminated,+64211000001,2D - VoLTE,Prepaid,A,+64211000002,2D - VoLTE,Prepaid,B,Y,Y,N,N,N,20,VoLTE,,Eskandar
+SMSC-002,"A, B, C",P2P,Preprod,Send & Receive SMS VoLTE to VoLTE,+64211000001,2D - VoLTE,Prepaid,A,+64211000002,2D - VoLTE,Prepaid,B,Y,Y,Y,Y,N,15,VoLTE,Test for CR 123,Eskandar
+Call-003,"A, B",VoWiFi > VoLTE,Preprod,VoWiFi to VoLTE Call,+64211000001,2D - VoWiFi,Postpaid,A,+64211000002,2D - VoLTE,Prepaid,B,Y,Y,N,N,N,10,VoWiFi,,Eskandar

@@ -1,0 +1,36 @@
+# ── NEVER commit these ──────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+.npm
+
+# Build outputs
+frontend/dist/
+backend/storage/evidence/
+backend/storage/screenshots/
+
+# Android build artifacts
+telecom-agent-apk/.gradle/
+telecom-agent-apk/app/build/
+telecom-agent-apk/build/
+telecom-agent-apk/local.properties
+*.apk
+*.aab
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.swp

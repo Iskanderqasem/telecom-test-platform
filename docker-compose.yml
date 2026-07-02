@@ -1,0 +1,27 @@
+version: '3.8'
+
+# IMPORTANT: Run the backend directly on your laptop (npm run dev inside backend/)
+# NOT in Docker — Docker containers cannot see USB-connected Android phones.
+# Only Postgres runs in Docker for convenience.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: telecom_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: telecom_user
+      POSTGRES_PASSWORD: telecom_pass
+      POSTGRES_DB: telecom_test_platform
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U telecom_user -d telecom_test_platform"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  pgdata:

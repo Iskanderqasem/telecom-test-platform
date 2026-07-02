@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TelecomTestAgent — Download & Install</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0f1722; color: #e7edf3; min-height: 100vh;
+    display: flex; align-items: center; justify-content: center; padding: 20px;
+  }
+  .container { max-width: 600px; width: 100%; }
+  h1 { color: #3fb6c9; font-size: 24px; margin-bottom: 6px; }
+  .sub { color: #93a4b8; font-size: 14px; margin-bottom: 32px; }
+  .card {
+    background: #16212e; border: 1px solid #2a3a4d;
+    border-radius: 14px; padding: 24px; margin-bottom: 20px;
+  }
+  h2 { font-size: 16px; color: #3fb6c9; margin-bottom: 16px; }
+  .qr-box {
+    background: #fff; border-radius: 12px; padding: 16px;
+    display: inline-block; margin: 0 auto 20px; display: flex;
+    justify-content: center;
+  }
+  .download-btn {
+    display: block; width: 100%; padding: 16px;
+    background: #2563eb; color: #fff; border: none;
+    border-radius: 10px; font-size: 16px; font-weight: 700;
+    text-decoration: none; text-align: center; cursor: pointer;
+    margin-bottom: 12px;
+  }
+  .download-btn:hover { background: #1d4ed8; }
+  .download-btn.secondary { background: #2e6b7e; }
+  .step {
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 12px 0; border-bottom: 1px solid #2a3a4d;
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    background: #2563eb; color: #fff; width: 28px; height: 28px;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 13px; flex-shrink: 0;
+  }
+  .step-text { font-size: 14px; color: #e7edf3; line-height: 1.5; }
+  .step-text strong { color: #3fb6c9; }
+  .badge {
+    display: inline-block; padding: 3px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 700;
+    background: rgba(58,166,107,0.15); color: #3aa66b;
+  }
+  code {
+    background: #1c2a3a; padding: 2px 8px; border-radius: 5px;
+    font-family: monospace; font-size: 13px; color: #3fb6c9;
+  }
+  .version-info { color: #93a4b8; font-size: 12px; margin-top: 12px; }
+  canvas { display: block; margin: 0 auto; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📱 TelecomTestAgent</h1>
+  <p class="sub">Android agent APK for Telecom Test Automation Platform</p>
+
+  <div class="card" style="text-align:center;">
+    <h2>Scan to Download</h2>
+    <div class="qr-box">
+      <canvas id="qrCanvas" width="200" height="200"></canvas>
+    </div>
+    <p class="version-info">Scan with your Android phone camera to download</p>
+  </div>
+
+  <div class="card">
+    <h2>📥 Direct Download</h2>
+    <a id="apkLink" href="./TelecomTestAgent.apk" class="download-btn" download>
+      ⬇ Download TelecomTestAgent.apk
+    </a>
+    <a href="https://github.com/Iskanderqasem/telecom-test-platform/releases/latest" 
+       class="download-btn secondary" target="_blank">
+      📦 View All Releases on GitHub
+    </a>
+    <div class="version-info">
+      Version 1.0.0 &nbsp;·&nbsp; Android 11–14 &nbsp;·&nbsp; 
+      <span class="badge">Stable</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📋 Installation Steps</h2>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>Enable Unknown Sources</strong><br>
+        Settings → Apps → Special app access → Install unknown apps →
+        allow your browser
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>Download & Install</strong><br>
+        Tap the download button above or scan the QR code.
+        Open the downloaded APK and tap Install.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>Grant All Permissions</strong><br>
+        Open TelecomTestAgent → tap <strong>Grant Permissions</strong>.
+        Allow: Phone, SMS, Contacts, Notifications.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-text">
+        <strong>Enable Auto-Answer on B-Party Phone</strong><br>
+        On the phone that receives calls → toggle
+        <strong>Auto-Answer ON</strong>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-text">
+        <strong>Connect to laptop via USB</strong><br>
+        Enable <strong>USB Debugging</strong> in Developer Options.
+        The agent will be reachable automatically via ADB tunnel.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🔌 ADB Setup (on your laptop)</h2>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text">
+        Confirm phones visible: <code>adb devices</code>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text">
+        Forward ports to Phone A: <code>adb -s SERIAL_A forward tcp:8765 tcp:8765</code>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text">
+        Forward ports to Phone B: <code>adb -s SERIAL_B forward tcp:8766 tcp:8765</code>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-text">
+        Test connection: <code>curl http://localhost:8765/health</code>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Simple QR code generator (pure JS, no library needed for a URL)
+// We use the Google Charts API to generate the QR
+window.onload = function() {
+  const apkUrl = window.location.href.replace('index.html', 'TelecomTestAgent.apk');
+  const downloadUrl = encodeURIComponent(apkUrl);
+  
+  // Generate QR using Google Charts API
+  const qrImg = new Image();
+  qrImg.crossOrigin = 'anonymous';
+  qrImg.onload = function() {
+    const canvas = document.getElementById('qrCanvas');
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(qrImg, 0, 0, 200, 200);
+  };
+  qrImg.onerror = function() {
+    // Fallback: show URL text if QR fails
+    const canvas = document.getElementById('qrCanvas');
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, 200, 200);
+    ctx.fillStyle = '#000';
+    ctx.font = '11px monospace';
+    ctx.fillText('QR: Scan the URL above', 10, 100);
+  };
+  qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${downloadUrl}`;
+  
+  // Update download link
+  document.getElementById('apkLink').href = apkUrl;
+};
+</script>
+</body>
+</html>

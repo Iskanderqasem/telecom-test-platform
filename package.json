@@ -1,0 +1,13 @@
+{
+  "name": "telecom-test-platform",
+  "version": "2.0.0",
+  "description": "Telecom Test Automation Platform",
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build",
+    "start": "node backend/scripts/migrate.js && node backend/src/server.js",
+    "install-all": "cd backend && npm install && cd ../frontend && npm install"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
